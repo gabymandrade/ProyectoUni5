@@ -1,14 +1,14 @@
 #!/bin/bash
 
 ## Gabriela Martínez Andrade 2020
-## This script was write at "home/cirio/gabymandrade/BioinfinvRepro/Unidad5/Prac_Uni5/wolves",
+## This script was write at "home/cirio/gabymandrade/BioinfinvRepro/Unidad5/Prac_Uni5/data/wolves",
 ##and cirio its the name at CONABIO server:
 
 
 ### This script defines de the following points:
 
 ## Define a variable that contains the path to the file
-vcftools="docker run -u 1600 --rm -v /home/cirio/gabymandrade/BioinfinvRepro/Unidad5/Prac_Uni5/wolves:/data biocontainers/vcftools:0.1.15 vcftools"
+vcftools="docker run -u 1600 --rm -v /home/cirio/gabymandrade/BioinfinvRepro/Unidad5/Prac_Uni5/data/wolves:/data biocontainers/vcftools:0.1.15 vcftools"
 
 ##To call the variable, we must use $ to define the variable
 
@@ -19,12 +19,12 @@ $vcftools --vcf wolves.vcf
 
 ##)b) Calculate allelic frequency in all the subjects from each file and save the results in an output file
 
-$vcftools --vcf wolves.vcf --freq --out frequencies
+$vcftools --vcf wolves.vcf --freq --out wolvesfrequencies
 
 
 ## c) Evaluate the sites in the file without missing data
 
-$vcftools --vcf wolves.vcf --hardy --max-missing 1.0 --out output_noMissing
+$vcftools --vcf wolves.vcf --hardy --max-missing 1.0 --out wolves_noMissing
 
 
 ## d) Calculate allelic frequencies from all subjects, but just in the sites without missing data
@@ -35,25 +35,33 @@ $vcftools --vcf wolves.vcf --max-missing 1-freq --out wolves_freq_no_miss
 
 ## e) Determinate the number of sites with an allelic frequency lower than 0.05
 
-
+$vcftools --vcf wolves.vcf --max-maf 0.05
 
 ## f) Calculate heterocigosis from each subject
 
-
+$vcftools --vcf wolves.vcf --het --out wolvesheterocigosity
 
 ##g) Calculate nucleotide diversity from each site
 
-
+$vcftools --vcf wolves.vcf --site-pi --out wolvesdiversity
 
 ##h) Calculate nucleotide diversity per site in chromosome 3.
 
-
+$vcftools --vcf wolves.vcf --chr chr03 --site-pi --out wolvesdiversitychro3
 
 ## i) Filter sites with an allelic diversity lower than 0.05 and save the results to an output file.
 
+$vcftools --vcf wolves.vcf --max-maf 0.05 --recode --out wolvesallelicdiversity
 
-## j) Change  wolves_maf05.vcf’s type file to plink.
-## So plink used to convert archives VCF to archives plink,
+## j) So plink used to convert archives VCF to archives plink,
 ## and my output name will be wolvesforplink
 
-## For generate the output file
+$vcftools --vcf wolves_maf.vcf --plink --out wolvesforplink
+
+## Finally for go to plink apply cd ~ to go home
+cd ~
+
+## And we need --make-bed --chr-set 38 --out to create to get files .Bed .Bim and .Fam and the number 38 it's because
+##it's not human
+
+./plink --file gabymandrade/BioinfinvRepro/Unidad5/Prac_Uni5/data/wolves --make-bed --chr-set 38 --out gabymandrade/BioinfinvRepro/Unidad5/Prac_Uni5/data/wolvesforplink
