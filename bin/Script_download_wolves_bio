@@ -1,0 +1,22 @@
+#!/bin/bash
+
+## Gabriela Martínez Andrade 2020
+## This script was made to execute the following steps:
+
+# Go to a relative path in Unidad 5
+
+cd Unidad5/Prac_Uni5/
+
+# Make a directory called data
+mkdir data
+
+# Download wolf’s data in vcf directory data using wget
+# wget function is to download files and save theme directly, without print it in the terminal
+# To save vcf files, it is necessary that files are terminated in .vcf.
+# Copy link using the copy command.
+cd ../data #to be placed in the directory
+wget https://datadryad.org/stash/downloads/file_stream/6226
+
+
+# File can be renamed with mv command
+mv 6226 wolves.vcf
