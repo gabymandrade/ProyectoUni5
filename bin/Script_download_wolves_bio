@@ -10,7 +10,7 @@
 cd Unidad5/Prac_Uni5/
 
 # Make a directory called data
-mkdir data
+mkdir ../data
 
 # Download wolf’s data in vcf directory data using wget
 # wget function is to download files and save theme directly, without print it in the terminal
